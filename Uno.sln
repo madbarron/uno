@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnoRunner", "UnoRunner\UnoRunner.csproj", "{52159F11-2660-49C4-BEC6-9295D78B86B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uno", "Uno\Uno.csproj", "{C6A6B511-EC4E-484A-AD66-D24FBB2E1936}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52159F11-2660-49C4-BEC6-9295D78B86B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52159F11-2660-49C4-BEC6-9295D78B86B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52159F11-2660-49C4-BEC6-9295D78B86B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52159F11-2660-49C4-BEC6-9295D78B86B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6A6B511-EC4E-484A-AD66-D24FBB2E1936}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6A6B511-EC4E-484A-AD66-D24FBB2E1936}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6A6B511-EC4E-484A-AD66-D24FBB2E1936}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6A6B511-EC4E-484A-AD66-D24FBB2E1936}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8AA7CC2F-C992-43A1-B8AF-D13A6684429A}
+	EndGlobalSection
+EndGlobal
