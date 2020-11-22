@@ -8,6 +8,8 @@ namespace Uno
     {
         List<Card> cards;
 
+        public bool Empty { get => cards.Count == 0; }
+
         public Deck()
         {
             cards = new List<Card>();

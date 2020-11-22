@@ -62,12 +62,19 @@ namespace Uno
             return score;
         }
 
-        public GameAction Turn(Card topCard)
+        public PlayerGameAction Turn(Card topCard)
         {
-            GameAction action = TakeTurn(topCard);
+            PlayerGameAction action = TakeTurn(topCard);
 
             if (action.type == GameActionType.Play)
             {
+                // Make sure wild card is assigned a color
+                if (action.card.Color == CardColor.Wild)
+                {
+                    throw new Exception("Must assign a color to a card before playing a wild card");
+                }
+
+                // Remove card from hand
                 if (hand.Contains(action.card))
                 {
                     hand.Remove(action.card);
@@ -81,24 +88,29 @@ namespace Uno
             return action;
         }
 
-        protected virtual GameAction TakeTurn(Card topCard)
+        protected virtual PlayerGameAction TakeTurn(Card topCard)
         {
             throw new NotImplementedException();
         }
 
-        public void OnPlayerForceDraw(int playerIndex)
+        public virtual void OnGameAction(GameAction action)
         {
-            // Do we want to keep track of this?
+            throw new NotImplementedException();
         }
 
-        public void OnPlayerDraw(int playerIndex)
-        {
-            // Do we want to keep track of this?
-        }
+        //public void OnPlayerForceDraw(int playerIndex)
+        //{
+        //    // Do we want to keep track of this?
+        //}
 
-        public void OnPlayerPlay(int playerIndex, Card card)
-        {
-            // Do we want to keep track of this?
-        }
+        //public void OnPlayerDraw(int playerIndex)
+        //{
+        //    // Do we want to keep track of this?
+        //}
+
+        //public void OnPlayerPlay(int playerIndex, Card card)
+        //{
+        //    // Do we want to keep track of this?
+        //}
     }
 }

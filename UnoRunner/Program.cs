@@ -15,9 +15,9 @@ namespace UnoRunner
             players.Add(new BasicPlayer("Bob"));
             players.Add(new BasicPlayer("Charlie"));
 
-            Game game = new Game();
+            Game game = new Game(players);
             game.debug = true;
-            game.PlayGame(players);
+            game.PlayGame();
         }
     }
 }

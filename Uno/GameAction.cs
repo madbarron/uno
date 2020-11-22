@@ -4,36 +4,26 @@ using System.Text;
 
 namespace Uno
 {
-    public enum GameActionType { Draw, Play, ShuffleDiscard }
+    public enum GameActionType { Draw, Play, ForceDraw, ShuffleDiscard, TopCard }
 
     public class GameAction
     {
-        string player;
+        public int? Seat = null;
+        public string Player;
         //string description;
         public GameActionType type;
         public Card card;
 
-        private GameAction(GameActionType type, string playerName)
+        public GameAction(GameActionType type)
         {
-            this.player = playerName;
             this.type = type;
         }
 
-        private GameAction(GameActionType type, string playerName, Card card)
+        public GameAction(GameActionType type, int seat, string playerName)
         {
-            this.player = playerName;
             this.type = type;
-            this.card = card;
-        }
-
-        public static GameAction PlayCard(string playerName, Card card)
-        {
-            return new GameAction(GameActionType.Play, playerName, card);
-        }
-
-        public static GameAction Draw(string playerName)
-        {
-            return new GameAction(GameActionType.Draw, playerName);
+            this.Seat = seat;
+            this.Player = playerName;
         }
 
         public override string ToString()
@@ -41,13 +31,19 @@ namespace Uno
             switch (type)
             {
                 case GameActionType.Draw:
-                    return string.Format("{0} drew a card.", player);
+                    return string.Format("{0} drew a card.", Player);
 
                 case GameActionType.Play:
-                    return string.Format("{0} played a {1}.", player, card);
+                    return string.Format("{0} played a {1}.", Player, card);
 
                 case GameActionType.ShuffleDiscard:
                     return "The discard pile is shuffled into a new draw deck.";
+
+                case GameActionType.TopCard:
+                    return string.Format("The top card is a {0}.", card);
+
+                case GameActionType.ForceDraw:
+                    return string.Format("{0} was forced to draw a card.", Player);
 
                 default:
                     throw new NotImplementedException();
