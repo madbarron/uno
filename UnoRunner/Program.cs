@@ -16,8 +16,10 @@ namespace UnoRunner
             players.Add(new BasicPlayer("Charlie"));
 
             Game game = new Game(players);
-            game.debug = true;
-            game.PlayGame();
+            game.debug = false;
+            GameResult result = game.PlayGame();
+
+            Console.WriteLine(string.Format("{0} won and scored {1} points!", result.winnerName, result.pointsWon));
         }
     }
 }

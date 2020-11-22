@@ -78,7 +78,7 @@ namespace Uno
             LogAction(new GameAction(type), seat, players[seat].ToString());
         }
 
-        public void PlayGame()
+        public GameResult PlayGame()
         {
             GameAction action;
             Player currentPlayer;
@@ -131,7 +131,24 @@ namespace Uno
                 // Check for victory
                 if (currentPlayer.HandCount == 0)
                 {
-                    Console.WriteLine(String.Format("{0} Wins!!", currentPlayer));
+                    //Console.WriteLine(String.Format("{0} Wins!!", currentPlayer));
+
+                    result.winnerSeat = playerTurn;
+                    result.winnerName = currentPlayer.ToString();
+                    result.pointsWon = 0;
+
+                    for (int i = 0; i < players.Count; i++)
+                    {
+                        result.seats[i].CardsLeft = players[i].HandCount;
+                        result.seats[i].HandScore = players[i].HandScore();
+                        result.seats[i].winner = false;
+
+                        result.pointsWon += players[i].HandScore();
+                    }
+
+                    result.seats[playerTurn].winner = true;
+                    result.seats[playerTurn].PointsWon = result.pointsWon;
+
                     gameOver = true;
                 }
                 else
@@ -169,6 +186,8 @@ namespace Uno
                     }
                 }
             }
+
+            return result;
         }
     }
 }

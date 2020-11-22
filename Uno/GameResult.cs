@@ -7,7 +7,8 @@ namespace Uno
     public class GameResult
     {
         public PlayerGameResult[] seats;
-        public string winner;
+        public int winnerSeat;
+        public string winnerName;
         public int pointsWon;
 
         public List<GameAction> actions;
