@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Uno
 {
-    class Player
+    public class Player
     {
         protected List<Card> hand;
         protected int playerIndex;
@@ -62,43 +62,33 @@ namespace Uno
             return score;
         }
 
-        /// <summary>
-        /// The player always has the option to draw cards on their turn.
-        /// The game will ask the player if they want to draw.
-        /// Return true to draw a card. Return false to play a card.
-        /// </summary>
-        /// <param name="topCard"></param>
-        /// <returns></returns>
-        public virtual bool DrawOption(Card topCard)
+        public GameAction Turn(Card topCard)
+        {
+            GameAction action = TakeTurn(topCard);
+
+            if (action.type == GameActionType.Play)
+            {
+                if (hand.Contains(action.card))
+                {
+                    hand.Remove(action.card);
+                }
+                else
+                {
+                    throw new Exception("Tried to play a card that is not in hand");
+                }
+            }
+
+            return action;
+        }
+
+        protected virtual GameAction TakeTurn(Card topCard)
         {
             throw new NotImplementedException();
         }
 
-        public Card Play(Card topCard)
+        public void OnPlayerForceDraw(int playerIndex)
         {
-            Card c = PickCardToPlay(topCard);
-
-            if (hand.Contains(c))
-            {
-                hand.Remove(c);
-            }
-            else
-            {
-                throw new Exception("Tried to play a card that is not in hand");
-            }
-
-            return c;
-        }
-
-        /// <summary>
-        /// Return the card that the player wants to play.
-        /// Wild cards must be given a color.
-        /// </summary>
-        /// <param name="topCard"></param>
-        /// <returns></returns>
-        protected virtual Card PickCardToPlay(Card topCard)
-        {
-            throw new NotImplementedException();
+            // Do we want to keep track of this?
         }
 
         public void OnPlayerDraw(int playerIndex)

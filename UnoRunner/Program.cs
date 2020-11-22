@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Uno;
 
 namespace UnoRunner
@@ -9,8 +10,14 @@ namespace UnoRunner
         {
             Console.WriteLine("Hello World!");
 
+            List<Player> players = new List<Player>();
+            players.Add(new BasicPlayer("Alice"));
+            players.Add(new BasicPlayer("Bob"));
+            players.Add(new BasicPlayer("Charlie"));
+
             Game game = new Game();
-            game.Play();
+            game.debug = true;
+            game.PlayGame(players);
         }
     }
 }

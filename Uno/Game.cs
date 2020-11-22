@@ -7,87 +7,88 @@ namespace Uno
     public class Game
     {
         const int CARDS_TO_DEAL = 7;
-        Deck drawDeck;
+        Deck deck;
         Deck discard;
         Card topCard;
+        public bool debug = false;
 
-        List<Player> players;
+        Dictionary<string, int> scores;
 
         public Game()
         {
-            players = new List<Player>();
-            players.Add(new BasicPlayer("Alice"));
-            players.Add(new BasicPlayer("Bob"));
-            players.Add(new BasicPlayer("Charlie"));
-
-            drawDeck = new Deck();
-            drawDeck.Populate();
-            drawDeck.Shuffle();
-
-            discard = new Deck();
-
-            Deal();
+            deck = new Deck();
         }
 
-        protected void Deal()
+        protected void Deal(List<Player> players)
         {
             for(int i = 0; i < CARDS_TO_DEAL; i++)
             {
                 foreach(Player p in players)
                 {
-                    p.Draw(drawDeck.Draw());
+                    p.Draw(deck.Draw());
                 }
             }
         }
 
-        public void Play()
+        public void PlayGame(List<Player> players)
         {
+            GameResult result = new GameResult(players);
+            GameAction action;
+            Player currentPlayer;
+
+            deck.Populate();
+            deck.Shuffle();
+
+            discard = new Deck();
+
+            Deal(players);
+
             bool gameOver = false;
             int playerTurn = 0;
             int turnDirection = 1;
 
-            topCard = drawDeck.Draw();
+            topCard = deck.Draw();
 
             // Mulligan wild cards
             while (topCard.Value == CardValue.Wild || topCard.Value == CardValue.WildDrawFour)
             {
-                drawDeck.Add(topCard);
-                drawDeck.Shuffle();
-                topCard = drawDeck.Draw();
+                deck.Add(topCard);
+                deck.Shuffle();
+                topCard = deck.Draw();
             }
 
             Console.WriteLine(String.Format("The top card is a {0}.", topCard));
 
+            currentPlayer = players[playerTurn];
+
             while (!gameOver)
             {
-                // Player must draw
-                while (!players[playerTurn].CanPlayOn(topCard))
-                {
-                    players[playerTurn].Draw(drawDeck.Draw());
-                    Console.WriteLine(String.Format("{0} had to draw.", players[playerTurn]));
-                }
+                action = currentPlayer.Turn(topCard);
 
-                // Player chooses to draw
-                while (players[playerTurn].DrawOption(topCard))
+                // Keep drawing as long as the player wants to draw
+                while (action.type == GameActionType.Draw)
                 {
-                    players[playerTurn].Draw(drawDeck.Draw());
-                    Console.WriteLine(String.Format("{0} chose to draw.", players[playerTurn]));
+                    currentPlayer.Draw(deck.Draw());
+                    Console.WriteLine(String.Format("{0} chose to draw.", currentPlayer));
+
+                    action = currentPlayer.Turn(topCard);
                 }
 
                 // Play the card they chose
-                Card toPlay = players[playerTurn].Play(topCard);
-                if (toPlay.Color == CardColor.Wild)
+                if (action.card.Color == CardColor.Wild)
                 {
                     throw new Exception("Must assign a color to a card before playing a wild card");
                 }
+
                 discard.Add(topCard);
-                topCard = toPlay;
-                Console.WriteLine(String.Format("{0} played a {1}", players[playerTurn], topCard));
+                topCard = action.card;
+
+                Console.WriteLine(String.Format("{0} played a {1}", currentPlayer, topCard));
 
                 // Check for victory
-                if (players[playerTurn].HandCount == 0)
+                if (currentPlayer.HandCount == 0)
                 {
-                    Console.WriteLine(String.Format("{0} Wins!!", players[playerTurn]));
+                    Console.WriteLine(String.Format("{0} Wins!!", currentPlayer));
                     gameOver = true;
                 }
                 else
@@ -108,20 +109,22 @@ namespace Uno
                         playerTurn = (playerTurn + turnDirection + players.Count) % players.Count;
                     }
 
+                    currentPlayer = players[playerTurn];
+
                     // Handle draw cards
                     if (topCard.Value == CardValue.DrawTwo)
                     {
-                        Console.WriteLine(String.Format("{0} draws two.", players[playerTurn]));
-                        players[playerTurn].Draw(drawDeck.Draw());
-                        players[playerTurn].Draw(drawDeck.Draw());
+                        Console.WriteLine(String.Format("{0} draws two.", currentPlayer));
+                        currentPlayer.Draw(deck.Draw());
+                        currentPlayer.Draw(deck.Draw());
                     }
                     else if (topCard.Value == CardValue.WildDrawFour)
                     {
                         Console.WriteLine(String.Format("{0} draws four.", players[playerTurn]));
-                        players[playerTurn].Draw(drawDeck.Draw());
-                        players[playerTurn].Draw(drawDeck.Draw());
-                        players[playerTurn].Draw(drawDeck.Draw());
-                        players[playerTurn].Draw(drawDeck.Draw());
+                        currentPlayer.Draw(deck.Draw());
+                        currentPlayer.Draw(deck.Draw());
+                        currentPlayer.Draw(deck.Draw());
+                        currentPlayer.Draw(deck.Draw());
                     }
                 }
 
