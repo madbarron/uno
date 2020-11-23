@@ -14,12 +14,22 @@ namespace Uno
         public bool interactive = false;
         GameResult result;
         List<Player> players;
+        Random generator;
 
-        public Game(List<Player> players)
+        public Game(List<Player> players, int randomSeed = 0)
         {
             deck = new Deck();
             result = new GameResult(players);
             this.players = players;
+
+            if (randomSeed == 0)
+            {
+                generator = new Random();
+            }
+            else
+            {
+                generator = new Random(randomSeed);
+            }
         }
 
         protected void Deal(List<Player> players)
@@ -69,7 +79,7 @@ namespace Uno
             if (deck.Empty)
             {
                 deck = discard;
-                deck.Shuffle();
+                deck.Shuffle(generator.Next());
                 discard = new Deck();
                 LogAction(new GameAction(GameActionType.ShuffleDiscard));
             }
@@ -84,7 +94,7 @@ namespace Uno
             Player currentPlayer;
 
             deck.Populate();
-            deck.Shuffle();
+            deck.Shuffle(generator.Next());
 
             discard = new Deck();
 
@@ -101,7 +111,7 @@ namespace Uno
             while (topCard.Value == CardValue.Wild || topCard.Value == CardValue.WildDrawFour)
             {
                 deck.Add(topCard);
-                deck.Shuffle();
+                deck.Shuffle(generator.Next());
                 topCard = deck.Draw();
             }
 

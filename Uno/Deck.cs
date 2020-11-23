@@ -23,9 +23,18 @@ namespace Uno
             return c;
         }
 
-        public void Shuffle()
+        public void Shuffle(int randomSeed = 0)
         {
-            Random generator = new Random();
+            Random generator;
+            if (randomSeed == 0)
+            {
+                generator = new Random();
+            }
+            else
+            {
+                generator = new Random(randomSeed);
+            }
+
             Card swapCard;
             int swapIndex;
 

@@ -6,6 +6,13 @@ namespace Uno
 {
     public class Tournament
     {
+        private Random generator;
+
+        public Tournament(int randomSeed = 0)
+        {
+            generator = randomSeed == 0 ? new Random() : new Random(randomSeed);
+        }
+
         public List<TournamentEntrant> RunTournament(List<TournamentEntrant> entrants, int targetScore)
         {
             int winnerScore = 0;
@@ -14,7 +21,7 @@ namespace Uno
 
             while (winnerScore < targetScore)
             {
-                game = new Game(GetPlayers(entrants));
+                game = new Game(GetPlayers(entrants), generator.Next());
                 result = game.PlayGame();
 
                 //Console.WriteLine(string.Format("{0} won and scored {1} points!", result.winnerName, result.pointsWon));

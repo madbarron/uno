@@ -11,9 +11,14 @@ namespace Uno
             // Setup logic goes here.
         }
 
+        /// <summary>
+        /// Decide what to do on my turn.
+        /// </summary>
+        /// <param name="topCard"></param>
+        /// <returns>PlayerGameAction with either a type of "Draw" or of "Play" plus which card to play</returns>
         protected override PlayerGameAction TakeTurn(Card topCard)
         {
-            // Draw if I must draw
+            // Draw only if I must draw
             if (!CanPlayOn(topCard))
             {
                 return PlayerGameAction.Draw();
@@ -31,6 +36,11 @@ namespace Uno
             return PlayerGameAction.PlayCard(choice);
         }
 
+        /// <summary>
+        /// Pick the first card in my hand that can be played on the given top card
+        /// </summary>
+        /// <param name="topCard"></param>
+        /// <returns></returns>
         protected Card getFirstLegalCard(Card topCard)
         {
             foreach (Card card in hand)
@@ -41,15 +51,20 @@ namespace Uno
                 }
             }
 
-            throw new Exception("I should not get here if I cannot play a card.");
+            throw new Exception("I should not get here if I can play a card.");
         }
 
+        /// <summary>
+        /// Do internal bookkeeping when game events happen
+        /// </summary>
+        /// <param name="action"></param>
         public override void OnGameAction(GameAction action)
         {
             switch (action.type)
             {
                 case GameActionType.Draw:
-                    // Somebody drew a card
+                    // Somebody drew a card, either because they could not play on the top card
+                    // or because they thought it was a good idea.
                     break;
 
                 case GameActionType.ForceDraw:
@@ -57,15 +72,16 @@ namespace Uno
                     break;
 
                 case GameActionType.Play:
-                    // Do we care what somebody just played?
+                    // Somebody just played a card. Do we need to keep track of that?
                     break;
 
                 case GameActionType.ShuffleDiscard:
-                    // The discard pile was shuffled into the draw deck.
+                    // The discard pile was shuffled to become the new draw deck.
+                    // The last card played was not included.
                     break;
 
                 case GameActionType.TopCard:
-                    // The first card in the game was announced.
+                    // The first face-up card in the game was announced.
                     break;
             }
         }

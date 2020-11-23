@@ -19,11 +19,6 @@ namespace Uno
             hand = new List<Card>();
         }
 
-        //public void SetName(string name)
-        //{
-        //    this.name = name;
-        //}
-
         public override string ToString()
         {
             return name;
@@ -102,20 +97,5 @@ namespace Uno
         {
             throw new NotImplementedException();
         }
-
-        //public void OnPlayerForceDraw(int playerIndex)
-        //{
-        //    // Do we want to keep track of this?
-        //}
-
-        //public void OnPlayerDraw(int playerIndex)
-        //{
-        //    // Do we want to keep track of this?
-        //}
-
-        //public void OnPlayerPlay(int playerIndex, Card card)
-        //{
-        //    // Do we want to keep track of this?
-        //}
     }
 }
