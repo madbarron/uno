@@ -15,9 +15,14 @@ namespace Uno
 
         public Player(string name)
         {
-            hand = new List<Card>();
             this.name = name;
+            hand = new List<Card>();
         }
+
+        //public void SetName(string name)
+        //{
+        //    this.name = name;
+        //}
 
         public override string ToString()
         {

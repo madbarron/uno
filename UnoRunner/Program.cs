@@ -10,16 +10,31 @@ namespace UnoRunner
         {
             Console.WriteLine("Hello World!");
 
-            List<Player> players = new List<Player>();
-            players.Add(new BasicPlayer("Alice"));
-            players.Add(new BasicPlayer("Bob"));
-            players.Add(new BasicPlayer("Charlie"));
+            List<TournamentEntrant> players = new List<TournamentEntrant>();
+            players.Add(new TournamentEntrant("Alice", (n)=> new BasicPlayer(n)));
+            players.Add(new TournamentEntrant("Bob", (n)=> new BasicPlayer(n)));
+            players.Add(new TournamentEntrant("Charlie", (n)=> new BasicPlayer(n)));
 
-            Game game = new Game(players);
-            game.debug = false;
-            GameResult result = game.PlayGame();
+            Tournament t = new Tournament();
+            List<TournamentEntrant> records = t.RunTournament(players, 100000);
 
-            Console.WriteLine(string.Format("{0} won and scored {1} points!", result.winnerName, result.pointsWon));
+            records.Sort((l, r) => l.score - r.score);
+
+            foreach(TournamentEntrant entrant in records)
+            {
+                Console.WriteLine(string.Format("{0} totaled {1} points", entrant, entrant.score.ToString("n0")));
+            }
+
+            //List<Player> players = new List<Player>();
+            //players.Add(new BasicPlayer("Alice"));
+            //players.Add(new BasicPlayer("Bob"));
+            //players.Add(new BasicPlayer("Charlie"));
+
+            //Game game = new Game(players);
+            //game.debug = false;
+            //GameResult result = game.PlayGame();
+
+            //Console.WriteLine(string.Format("{0} won and scored {1} points!", result.winnerName, result.pointsWon));
         }
     }
 }
