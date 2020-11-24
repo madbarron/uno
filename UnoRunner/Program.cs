@@ -11,11 +11,11 @@ namespace UnoRunner
             Console.WriteLine("Let's Uno!");
 
             List<TournamentEntrant> players = new List<TournamentEntrant>();
-            players.Add(new TournamentEntrant("Alice", (n)=> new BasicPlayer(n)));
-            players.Add(new TournamentEntrant("Bob", (n)=> new BasicPlayer(n)));
-            players.Add(new TournamentEntrant("Charlie", (n)=> new BasicPlayer(n)));
+            players.Add(new TournamentEntrant("Alice", (n, s)=> new BasicPlayer(n, s)));
+            players.Add(new TournamentEntrant("Bob", (n, s)=> new BasicPlayer(n, s)));
+            players.Add(new TournamentEntrant("Charlie", (n, s)=> new BasicPlayer(n, s)));
 
-            Tournament t = new Tournament(54321);
+            Tournament t = new Tournament();
             List<TournamentEntrant> records = t.RunTournament(players, 100000);
 
             records.Sort((l, r) => l.score - r.score);

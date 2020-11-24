@@ -6,7 +6,7 @@ namespace Uno
 {
     public class BasicPlayer: Player
     {
-        public BasicPlayer(string name) : base(name)
+        public BasicPlayer(string name, int seat) : base(name, seat)
         {
             // Setup logic goes here.
         }
@@ -28,7 +28,7 @@ namespace Uno
             Card choice = getFirstLegalCard(topCard);
 
             // Make sure we pick a color for wild cards
-            if (DeckInfo.Cards[choice].IsWild)
+            if (GameInfo.Cards[choice].IsWild)
             {
                 choice = new Card(choice.Value, CardColor.Blue);
             }
@@ -60,6 +60,12 @@ namespace Uno
         /// <param name="action"></param>
         public override void OnGameAction(GameAction action)
         {
+            // Ignore actions that I did
+            if (action.Seat == seat)
+            {
+                return;
+            }
+
             switch (action.type)
             {
                 case GameActionType.Draw:

@@ -10,7 +10,17 @@ namespace Uno
 
         public Tournament(int randomSeed = 0)
         {
-            generator = randomSeed == 0 ? new Random() : new Random(randomSeed);
+            Random seedGenerator;
+
+            if (randomSeed == 0)
+            {
+                seedGenerator = new Random();
+                randomSeed = seedGenerator.Next();
+            }
+
+            Console.WriteLine(string.Format("Tournament Seed: {0}", randomSeed));
+
+            generator = new Random(randomSeed);
         }
 
         public List<TournamentEntrant> RunTournament(List<TournamentEntrant> entrants, int targetScore)
@@ -24,8 +34,6 @@ namespace Uno
                 game = new Game(GetPlayers(entrants), generator.Next());
                 result = game.PlayGame();
 
-                //Console.WriteLine(string.Format("{0} won and scored {1} points!", result.winnerName, result.pointsWon));
-
                 // Add up points for winner
                 foreach (TournamentEntrant entrant in entrants)
                 {
@@ -38,17 +46,24 @@ namespace Uno
                 }
             }
 
-            //Console.WriteLine(string.Format("{0} won and scored {1} points!", result.winnerName, result.pointsWon));
             return entrants;
         }
 
+        /// <summary>
+        /// Get a list of players in random order
+        /// </summary>
+        /// <param name="entrants"></param>
+        /// <returns></returns>
         private List<Player> GetPlayers (List<TournamentEntrant> entrants)
         {
             List<Player> players = new List<Player>(entrants.Count);
+            List<TournamentEntrant> toSeat = new List<TournamentEntrant>(entrants);
+            int rand;
 
-            foreach (TournamentEntrant e in entrants)
+            for (int seat = 0; seat < entrants.Count; seat++)
             {
-                players.Add(e.GetPlayer());
+                rand = generator.Next(toSeat.Count);
+                players.Add(toSeat[rand].GetPlayer(seat));
             }
 
             return players;

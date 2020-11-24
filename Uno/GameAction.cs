@@ -10,7 +10,6 @@ namespace Uno
     {
         public int? Seat = null;
         public string Player;
-        //string description;
         public GameActionType type;
         public Card card;
 

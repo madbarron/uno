@@ -4,13 +4,18 @@ using System.Text;
 
 namespace Uno
 {
-    public static class DeckInfo
+    public static class GameInfo
     {
         private static Dictionary<Card, CardInfo> cards;
 
+        public const int STARTING_HAND_SIZE = 7;
+
+        /// <summary>
+        /// Information about the types of cards in the deck
+        /// </summary>
         public static Dictionary<Card, CardInfo> Cards { get => cards; }
 
-        static DeckInfo()
+        static GameInfo()
         {
             cards = new Dictionary<Card, CardInfo>();
 
@@ -18,8 +23,8 @@ namespace Uno
             {
                 CardColor.Blue, CardColor.Red, CardColor.Green, CardColor.Yellow
             };
-            // Define deck
 
+            // Define deck
             foreach (CardColor color in colors)
             {
                 cards[new Card(CardValue.Zero, color)] = new CardInfo(0, 1);
@@ -32,6 +37,7 @@ namespace Uno
                 cards[new Card(CardValue.Seven, color)] = new CardInfo(7, 2);
                 cards[new Card(CardValue.Eight, color)] = new CardInfo(8, 2);
                 cards[new Card(CardValue.Nine, color)] = new CardInfo(9, 2);
+
                 cards[new Card(CardValue.Skip, color)] = new CardInfo(20, 2);
                 cards[new Card(CardValue.DrawTwo, color)] = new CardInfo(20, 2);
                 cards[new Card(CardValue.Reverse, color)] = new CardInfo(20, 2);
@@ -39,7 +45,6 @@ namespace Uno
 
             cards[new Card(CardValue.Wild, CardColor.Wild)] = new CardInfo(50, 4, true);
             cards[new Card(CardValue.WildDrawFour, CardColor.Wild)] = new CardInfo(50, 4, true);
-
         }
     }
 }

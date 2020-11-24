@@ -10,12 +10,14 @@ namespace Uno
         protected int playerIndex;
         protected int playerCount;
         private string name;
+        protected int seat;
 
         public int HandCount { get => hand.Count; }
 
-        public Player(string name)
+        public Player(string name, int seatIndex)
         {
             this.name = name;
+            this.seat = seatIndex;
             hand = new List<Card>();
         }
 

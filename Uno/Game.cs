@@ -6,7 +6,6 @@ namespace Uno
 {
     public class Game
     {
-        const int CARDS_TO_DEAL = 7;
         Deck deck;
         Deck discard;
         Card topCard;
@@ -34,7 +33,7 @@ namespace Uno
 
         protected void Deal(List<Player> players)
         {
-            for(int i = 0; i < CARDS_TO_DEAL; i++)
+            for(int i = 0; i < GameInfo.STARTING_HAND_SIZE; i++)
             {
                 foreach(Player p in players)
                 {
@@ -51,13 +50,10 @@ namespace Uno
             // Log action 
             result.actions.Add(action);
 
-            // Brodcast action to players
+            // Brodcast action to all players
             for(int i = 0; i < players.Count; i++)
             {
-                if (i != seat)
-                {
-                    players[i].OnGameAction(action);
-                }
+                players[i].OnGameAction(action);
             }
 
             // Display action if we're in debug mode
@@ -88,6 +84,10 @@ namespace Uno
             LogAction(new GameAction(type), seat, players[seat].ToString());
         }
 
+        /// <summary>
+        /// Play a game.
+        /// </summary>
+        /// <returns>Stats from the game</returns>
         public GameResult PlayGame()
         {
             GameAction action;

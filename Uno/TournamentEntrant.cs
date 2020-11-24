@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Uno
 {
-    public delegate Player InstantiatePlayer(string name);
+    public delegate Player InstantiatePlayer(string name, int seat);
 
     public class TournamentEntrant
     {
@@ -19,9 +19,9 @@ namespace Uno
             score = 0;
         }
 
-        public Player GetPlayer()
+        public Player GetPlayer(int seat)
         {
-            return playerGenerator.Invoke(name);
+            return playerGenerator.Invoke(name, seat);
         }
 
         public override string ToString()

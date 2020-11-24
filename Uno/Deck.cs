@@ -76,9 +76,9 @@ namespace Uno
         {
             cards.Clear();
 
-            foreach (Card prototype in DeckInfo.Cards.Keys)
+            foreach (Card prototype in GameInfo.Cards.Keys)
             {
-                Add(prototype, DeckInfo.Cards[prototype].Quantity);
+                Add(prototype, GameInfo.Cards[prototype].Quantity);
             }
         }
     }
