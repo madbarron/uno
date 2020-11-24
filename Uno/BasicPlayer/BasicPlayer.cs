@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Uno
+namespace Uno.BasicPlayer
 {
     public class BasicPlayer: Player
     {
