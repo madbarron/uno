@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using Uno;
 using Uno.BasicPlayer;
+using Uno.ConsolePlayer;
 
 namespace UnoRunner
 {
     class Program
     {
+        static bool debug = false;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Let's Uno!");
@@ -17,7 +20,7 @@ namespace UnoRunner
             players.Add(new TournamentEntrant("Charlie", (n, s)=> new BasicPlayer(n, s)));
 
             Tournament t = new Tournament();
-            List<TournamentEntrant> records = t.RunTournament(players, 100000);
+            List<TournamentEntrant> records = t.RunTournament(players, 100, debug);
 
             records.Sort((l, r) => l.score - r.score);
 

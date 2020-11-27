@@ -23,7 +23,7 @@ namespace Uno
             generator = new Random(randomSeed);
         }
 
-        public List<TournamentEntrant> RunTournament(List<TournamentEntrant> entrants, int targetScore)
+        public List<TournamentEntrant> RunTournament(List<TournamentEntrant> entrants, int targetScore, bool debug = false)
         {
             int winnerScore = 0;
             Game game;
@@ -32,6 +32,7 @@ namespace Uno
             while (winnerScore < targetScore)
             {
                 game = new Game(GetPlayers(entrants), generator.Next());
+                game.debug = debug;
                 result = game.PlayGame();
 
                 // Add up points for winner
@@ -64,6 +65,7 @@ namespace Uno
             {
                 rand = generator.Next(toSeat.Count);
                 players.Add(toSeat[rand].GetPlayer(seat));
+                toSeat.RemoveAt(rand);
             }
 
             return players;
